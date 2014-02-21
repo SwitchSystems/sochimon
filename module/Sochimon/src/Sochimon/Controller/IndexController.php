@@ -13,8 +13,13 @@ class IndexController extends AbstractActionController
 		$data = $this->getServiceLocator()->get('DataGrabber');
 		/*@var $data \Sochimon\Service\DataGrabber */
 
-//		var_dump($data->updateCountriesCache());exit;
+		var_dump($data->updateCountriesCache());exit;
 
+		return new ViewModel();
+	}
+
+	public function krisAction() {
+		echo 'hi';
 		return new ViewModel();
 	}
 
