@@ -1,15 +1,24 @@
 @CHARSET "UTF-8";
 
-#countries{
+#countries, #route{
 	margin-left:4px;
 }
-#countries li{
+li{
 	list-style-type: none;
 }
-#countries li img{
+li img{
 	width:45px;
 }
 
+li.country{
+cursor: pointer;
+}
+li.country:hover{
+text-decoration: underline;
+}
+li.country-detail{
+display:none;
+}
 .gold{
 	color:#B8860B;
 }

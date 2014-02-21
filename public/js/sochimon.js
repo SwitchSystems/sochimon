@@ -62,3 +62,16 @@ function deleteMarkers(id) {
 function getMarkerDataCallback() {
 	
 }
+
+//country select
+$(document).ready(function(){
+	$('li.country').click(function(e){
+		e.preventDefault();
+		var country = $(e.target).data('country');
+		var detail = $('li.country-detail[data-country="'+country+'"]');
+		$('#route').append(detail);
+		$('#route li[data-country="'+country+'"]').show();
+		$('#countries li[data-country="'+country+'"]').remove();
+		
+	});
+});
