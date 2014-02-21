@@ -20,7 +20,6 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	const URL_SOCHI 	= 'http://sochi.kimonolabs.com/api/';
 	const API_LIMIT 	= 9999;
 
-
 	/**
 	 * Get all athletes
 	 *
@@ -44,7 +43,7 @@ class DataGrabber implements ServiceLocatorAwareInterface
 			foreach ($country as $k=>$v) {
 				$objCountry->$k = $v;
 			}
-			$result[]=$objCountry;
+			$result[strtolower($objCountry->getName())]=$objCountry;
 		}
 		return $result;
 	}
@@ -60,7 +59,12 @@ class DataGrabber implements ServiceLocatorAwareInterface
 
 		$countries = $this->fetchAndStoreCountryData();
 
-		//$this->mergeAthleteDataToCountries($countries);
+		$countries = $this->mergeAthleteDataToCountries($countries);
+
+		$result = file_put_contents('data/cache/countries.json',json_encode($countries));
+		if ($result===false)
+			throw new RuntimeException('Unable to write to data/cache/countries.json');
+
 
 		return true;
 
@@ -77,18 +81,14 @@ class DataGrabber implements ServiceLocatorAwareInterface
 
 		$countries_geo = file_get_contents('http://restcountries.eu/rest/v1');
 
-		try {
-			// use the zend decoder, as we have some funky utf-8/encoding going on
-			$countries_geo = Json::decode($countries_geo,Json::TYPE_ARRAY);
-		} catch (\Exception $e) {
-			var_dump($e->getMessage());
-		}
+		// use the zend decoder, as we have some funky utf-8/encoding going on
+		$countries_geo = Json::decode($countries_geo,Json::TYPE_ARRAY);
 
 		// populate sochi country data with lat/lng coords
 		foreach ($countries_geo as $geoCountry) {
 			foreach ($countries['data'] as &$country) {
 				if ($geoCountry['alpha3Code'] == $country['abbr']) {
-					echo 'Found LATLNG for '.$country['abbr']." ";
+					// echo 'Found LATLNG for '.$country['abbr']." ";
 					$country['latlng'] = $geoCountry['latlng'];
 					break;
 				}
@@ -103,41 +103,43 @@ class DataGrabber implements ServiceLocatorAwareInterface
 			}
 		}
 
-		$result = file_put_contents('data/cache/countries.json',json_encode($filteredCountries));
-		if ($result===false)
-			throw new RuntimeException('Unable to write to data/cache/countries.json');
-
 		return $filteredCountries;
 
 	}
 
-	protected function mergeAthleteDataToCountries($countries) {
+	protected function mergeAthleteDataToCountries(array $countries) {
 
-		foreach($countries as $country) {
-			$athletes = $this->doSochiRequest('athletes',array(''));
+		foreach($countries as &$country) {
+
+			// we have to lowercase and then use underscores for the country name...GRR!
+			$countryName = strtolower(str_replace(' ','_',$country['name']));
+			// oh, and strip out any full stops.
+			$countryName = str_replace('.','',$countryName);
+
+			$athletes = $this->doSochiRequest('athletes',array('fields'=>'name,weight','country'=>$countryName));
+
+			if ($athletes===false) {
+				echo('unable to get athlete information for '.$country['name']);
+			} else {
+
+				$athletes = json_decode($athletes,true);
+
+				if ($athletes!==false) {
+					$totalWeight = 0;
+					foreach ($athletes['data'] as $person) {
+						$totalWeight+=$person['weight'];
+					}
+					$country['athletesCount'] = count($athletes['data']);
+					$country['athletesWeight'] = $totalWeight;
+				}
+			}
+			// @debugging
+			// var_dump($country['name'].' = '.$country['athletesCount'].', '.$country['athletesWeight']);
 
 		}
 
-	}
 
-	/**
-	 * Updates the athletes information
-	 * DRY, mega-lolz :D
-	 *
-	 * @throws RuntimeException
-	 * @return boolean
-	 */
-	public function updateAthletesCache() {
-
-
-		if ($athletes===false)
-			throw new RuntimeException('Something bad happened with the sochi/athletes API feed updater');
-
-		$result = file_put_contents('data/cache/athletes.json',$athletes);
-		if ($result===false)
-			throw new RuntimeException('Unable to write to data/cache/athletes.json');
-
-		return true;
+		return $countries;
 
 	}
 
