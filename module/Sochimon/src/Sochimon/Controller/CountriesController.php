@@ -8,7 +8,9 @@ class CountriesController extends AbstractActionController
 {
 	public function indexAction()
 	{
-		$countries = [];
+		$data = $this->getServiceLocator()->get('DataGrabber');
+		/*@var $data \Sochimon\Service\DataGrabber */
+		$countries = $data->getCountries();
 		
 		return new ViewModel([
 			'countries' => $countries

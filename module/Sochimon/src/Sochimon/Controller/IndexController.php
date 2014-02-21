@@ -10,8 +10,7 @@ class IndexController extends AbstractActionController
 	public function indexAction()
 	{
 
-		$data = $this->getServiceLocator()->get('DataGrabber');
-		/*@var $data \Sochimon\Service\DataGrabber */
+	
 
 		$countries = $this->forward()->dispatch('Sochimon\Controller\CountriesController',['action' => 'index'])->setTerminal(true);
 		

@@ -1,5 +1,5 @@
-<ul>
+<ul id="countries">
 	<?php foreach($this->countries as $country):?>
-		<li><?php echo $country->getName();?></li>
+		<li><a href="#"><i class="icon-plus-sign"></i> <img src="<?php echo $country->getFlag()?>" alt="" /> <?php echo $country->getName();?></a></li>
 	<?php endforeach;?>
 </ul>

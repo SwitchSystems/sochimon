@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+#countries{
+	margin-left:4px;
+}
+#countries li{
+	list-style-type: none;
+}
+#countries li img{
+	width:45px;
+}
