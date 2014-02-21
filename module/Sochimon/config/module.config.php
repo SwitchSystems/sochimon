@@ -37,11 +37,12 @@ return array(
 
 				),
 		),
+
 		'view_helpers' => array(
 				'invokables' => array(
 				)
 		),
-
+		
 		'service_manager' => array(
 				'invokables' => array(
 						'DataGrabber' => 'Sochimon\Service\DataGrabber',
