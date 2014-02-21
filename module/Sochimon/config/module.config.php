@@ -1,10 +1,26 @@
 <?php
 return array(
+		'console' => [
+				'router' => [
+						'routes' => [
+								'update' => [
+										'options' => [
+												'route' => 'update',
+												'defaults' => [
+														'controller' => 'Sochimon\Controller\DataController',
+														'action' => 'update'
+												]
+										]
+								]
+						]
+				]
+		],
 		'controllers' => array(
 				'invokables' => array(
 					'Sochimon\Controller\IndexController' => 'Sochimon\Controller\IndexController',
 					'Sochimon\Controller\CountriesController' => 'Sochimon\Controller\CountriesController',
-						
+					'Sochimon\Controller\DataController' => 'Sochimon\Controller\DataController',
+
 				)
 		),
 
@@ -44,7 +60,7 @@ return array(
 				'invokables' => array(
 				)
 		),
-		
+
 		'service_manager' => array(
 				'invokables' => array(
 						'DataGrabber' => 'Sochimon\Service\DataGrabber',
