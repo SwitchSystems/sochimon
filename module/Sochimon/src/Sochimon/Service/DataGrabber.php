@@ -42,7 +42,7 @@ class DataGrabber implements ServiceLocatorAwareInterface
 		$result = array();
 
 		foreach ($countries['data'] as $country) {
-			$objCountry = new Sochimoon\Model\Country();
+			$objCountry = new \Sochimon\Model\Country();
 			foreach ($country as $k=>$v) {
 				$objCountry->$k = $v;
 			}
