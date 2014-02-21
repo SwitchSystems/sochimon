@@ -15,17 +15,22 @@ $('').click(function(){
 
 function getMarkerData(id)
 {
-	$.get('/api/XXX/' + id, createMarkerFromJson, 'json').done(function(){});
+	$.get('/api/XXX/' + id, createMarkerFromJson, 'json').done(function(){getMarkerDataCallback();});
 }
 
 function createMarkerFromJson(obj, ajaxStatus)
 {
 	customIcon = createCustomIcon(obj);
-	L.marker(obj.data.latLng, {icon: customIcon}).addTo(map)
-	
+	L.marker(obj.data.latLng, {icon: customIcon}).addTo(map).bindPopup("I am a green leaf.");;
 	currentMarkers[obj.data.id] = obj.data.latLng;
 	
 	addMarkerToRoute();
+}
+
+function createPopupMarkup(obj) {
+	popupHtml=document.createElement('DIV');
+	
+	$(popupHtml).append(obj.data.name);
 }
 
 function addMarkerToRoute() {
@@ -45,4 +50,8 @@ function createCustomIcon(obj) {
 	
 	
 	return customIcon;
+}
+
+function getMarkerDataCallback() {
+	
 }
