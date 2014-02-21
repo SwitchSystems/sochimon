@@ -3,10 +3,10 @@ return array(
 		'controllers' => array(
 				'invokables' => array(
 					'Sochimon\Controller\IndexController' => 'Sochimon\Controller\IndexController',
-				)		
+				)
 		),
-		
-		
+
+
 		'router' => array(
 				'routes' => array(
 					'home' => array(
@@ -34,17 +34,23 @@ return array(
 									),
 							),
 					),
-						
+
 				),
 		),
-		
+
+		'service_manager' => array(
+				'invokables' => array(
+						'DataGrabber' => 'Sochimon\Service\DataGrabber',
+				)
+		),
+
 		'view_manager' => array(
 				'template_map' => array(
-						
+
 				),
 				'template_path_stack' => array(
 						'sochimon' => __DIR__ . '/../view',
 				),
 		),
-		
+
 );
