@@ -3,6 +3,8 @@ return array(
 		'controllers' => array(
 				'invokables' => array(
 					'Sochimon\Controller\IndexController' => 'Sochimon\Controller\IndexController',
+					'Sochimon\Controller\CountriesController' => 'Sochimon\Controller\CountriesController',
+						
 				)
 		),
 
