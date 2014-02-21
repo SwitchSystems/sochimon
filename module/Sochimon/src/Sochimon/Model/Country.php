@@ -17,6 +17,11 @@ class Country
 
 	public $latlng = array(); // array of latlng points
 
+	public function getId()
+	{
+		return $this->id;
+	}
+
 	public function getName()
 	{
 		return $this->name;

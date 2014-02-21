@@ -24,33 +24,29 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	/**
 	 * Get all athletes
 	 *
-	 * @return mixed
+	 * @return arra yof Sochimon\Model\Athlete
 	 */
 	public function getAthletes() {
-
 		return json_decode(file_get_contents('data/cache/athletes.json'));
 	}
 
 	/**
-	 * Get all countries
+	 * Get all countries (that have medals)
 	 *
-	 * @return mixed
+	 * @return array of Sochimon\Model\Country
 	 */
 	public function getCountries() {
-		$countries=json_decode(file_get_contents('data/cache/countries.json'),true);
+		$arrCountries=json_decode(file_get_contents('data/cache/countries.json'),true);
 
 		$result = array();
-
-		foreach ($countries['data'] as $country) {
+		foreach ($arrCountries as $country) {
 			$objCountry = new \Sochimon\Model\Country();
 			foreach ($country as $k=>$v) {
 				$objCountry->$k = $v;
 			}
 			$result[]=$objCountry;
 		}
-
 		return $result;
-
 	}
 
 
@@ -62,6 +58,16 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	 */
 	public function updateCountriesCache() {
 
+		$countries = $this->fetchAndStoreCountryData();
+
+		//$this->mergeAthleteDataToCountries($countries);
+
+		return true;
+
+	}
+
+	protected function fetchAndStoreCountryData() {
+
 		$countries = $this->doSochiRequest('countries');
 
 		if ($countries===false)
@@ -72,8 +78,8 @@ class DataGrabber implements ServiceLocatorAwareInterface
 		$countries_geo = file_get_contents('http://restcountries.eu/rest/v1');
 
 		try {
-		// use the zend decoder, as we have some funky utf-8/encoding going on
-		$countries_geo = Json::decode($countries_geo,Json::TYPE_ARRAY);
+			// use the zend decoder, as we have some funky utf-8/encoding going on
+			$countries_geo = Json::decode($countries_geo,Json::TYPE_ARRAY);
 		} catch (\Exception $e) {
 			var_dump($e->getMessage());
 		}
@@ -89,11 +95,28 @@ class DataGrabber implements ServiceLocatorAwareInterface
 			}
 		}
 
-		$result = file_put_contents('data/cache/countries.json',json_encode($countries));
+		// filter countries, we only need the countries that have actually got medals!
+		$filteredCountries = array();
+		foreach ($countries['data'] as $k=>$country) {
+			if ($country['medals']['total']>0) {
+				$filteredCountries[]=$country;
+			}
+		}
+
+		$result = file_put_contents('data/cache/countries.json',json_encode($filteredCountries));
 		if ($result===false)
 			throw new RuntimeException('Unable to write to data/cache/countries.json');
 
-		return true;
+		return $filteredCountries;
+
+	}
+
+	protected function mergeAthleteDataToCountries($countries) {
+
+		foreach($countries as $country) {
+			$athletes = $this->doSochiRequest('athletes',array(''));
+
+		}
 
 	}
 
@@ -106,7 +129,6 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	 */
 	public function updateAthletesCache() {
 
-		$athletes = $this->doSochiRequest('athletes');
 
 		if ($athletes===false)
 			throw new RuntimeException('Something bad happened with the sochi/athletes API feed updater');
