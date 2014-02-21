@@ -1,0 +1,12 @@
+# Eclipse Project Settings
+.settings
+.buildpath
+.project
+
+# Vagrant
+.vagrant
+
+#Application Config
+/config/autoload/local.php
+/config/autoload/local.php.*
+/config/autoload/*.local.php
