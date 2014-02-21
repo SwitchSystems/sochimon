@@ -10,3 +10,24 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 L.marker([51.5, -0.09]).addTo(map)
     .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
     .openPopup();
+
+
+	$.ajax({
+	  url: url,
+	  data: data,
+	  success: success,
+	  dataType: dataType
+	});
+	
+	
+function createMarker(obj, ajaxStatus)
+{
+	L.marker(obj.data.latLng).addTo(map)
+}
+
+function getMarkerData(e)
+{
+	var ID=$(e.currentTarget).attr('data-sochi-id');
+	
+	$.get('/api/XXX/'+ID, createMarker, 'json').done(function(){});
+}
