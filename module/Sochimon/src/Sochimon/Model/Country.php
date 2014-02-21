@@ -51,4 +51,24 @@ class Country
 	{
 		return $this->medals['bronze'];
 	}
+	
+	public function getTotalAthleteWeight()
+	{
+		return 0;
+	}
+	
+	public function getTotalAthlete()
+	{
+		return 0;
+	}
+	
+	public function getLat()
+	{
+		return $this->latlng[0];
+	}
+	
+	public function getLng()
+	{
+		return $this->latlng[1];
+	}
 }
