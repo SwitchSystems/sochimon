@@ -21,5 +21,10 @@ class IndexController extends AbstractActionController
 				'countriesHTML' => $viewRender->render($countries),
 		]);
 	}
+	
+	public function splashAction()
+	{
+		return new ViewModel();
+	}
 
 }
