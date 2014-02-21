@@ -3,8 +3,52 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5fdf2fa5772b5c2a1a50cb163031e260",
+    "hash": "0714b3d5970048442df1cab52d973f46",
     "packages": [
+        {
+            "name": "treffynnon/navigator",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/treffynnon/Navigator.git",
+                "reference": "60b9c19277f9453403e0a583c2abacd85404bf0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/treffynnon/Navigator/zipball/60b9c19277f9453403e0a583c2abacd85404bf0f",
+                "reference": "60b9c19277f9453403e0a583c2abacd85404bf0f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Treffynnon\\Navigator": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Holywell",
+                    "email": "treffynnon@php.net",
+                    "homepage": "http://simonholywell.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Geographic calculations for PHP",
+            "homepage": "http://github.com/treffynnon/Navigator",
+            "keywords": [
+                "distance",
+                "geography",
+                "navigaton"
+            ],
+            "time": "2013-02-21 12:04:53"
+        },
         {
             "name": "zendframework/zendframework",
             "version": "2.2.5",
