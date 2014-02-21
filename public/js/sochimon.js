@@ -22,8 +22,8 @@ function createMarkerFromJson(obj, ajaxStatus)
 {
 	customIcon = createCustomIcon(obj);
 	popupHtml  = createPopupMarkup(obj);
-	L.marker(obj.data.latLng, {icon: customIcon}).addTo(map).bindPopup(popupHtml);
-	currentMarkers[obj.data.id] = obj.data.latLng;
+	marker = L.marker(obj.data.latLng, {icon: customIcon}).addTo(map).bindPopup(popupHtml);
+	currentMarkers[obj.data.id] = marker;
 	
 	addMarkerToRoute();
 }
@@ -54,6 +54,10 @@ function createCustomIcon(obj) {
 	
 	return customIcon;
 }
+
+function deleteMarkers(id) {
+	map.removeLayer(currentMarkers[id]);
+};
 
 function getMarkerDataCallback() {
 	
