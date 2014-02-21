@@ -50,8 +50,10 @@ return array(
 		),
 
 		'view_manager' => array(
+				'not_found_template'       => 'layout/error',
+				'exception_template'       => 'layout/error',
 				'template_map' => array(
-
+						'layout/error'            => __DIR__ . '/../view/layout/error.phtml',
 				),
 				'template_path_stack' => array(
 						'sochimon' => __DIR__ . '/../view',
