@@ -20,11 +20,11 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	const API_LIMIT 	= 9999;
 
 	public function getAthletes() {
-		return json_encode(file_get_contents('data/cache/athletes.json'));
+		return json_dencode(file_get_contents('data/cache/athletes.json'));
 	}
 
 	public function getCountries() {
-		return json_encode(file_get_contents('data/cache/countries.json'));
+		return json_dencode(file_get_contents('data/cache/countries.json'));
 	}
 
 

@@ -6,10 +6,16 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-	
+
 	public function indexAction()
 	{
+
+		$data = $this->getServiceLocator()->get('DataGrabber');
+		/*@var $data \Sochimon\Service\DataGrabber */
+
+		var_dump($data->updateCountriesCache());exit;
+
 		return new ViewModel();
 	}
-	
+
 }
