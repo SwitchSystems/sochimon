@@ -21,7 +21,8 @@ function getMarkerData(id)
 function createMarkerFromJson(obj, ajaxStatus)
 {
 	customIcon = createCustomIcon(obj);
-	L.marker(obj.data.latLng, {icon: customIcon}).addTo(map).bindPopup("I am a green leaf.");;
+	popupHtml  = createPopupMarkup(obj);
+	L.marker(obj.data.latLng, {icon: customIcon}).addTo(map).bindPopup(popupHtml);
 	currentMarkers[obj.data.id] = obj.data.latLng;
 	
 	addMarkerToRoute();
@@ -31,6 +32,8 @@ function createPopupMarkup(obj) {
 	popupHtml=document.createElement('DIV');
 	
 	$(popupHtml).append(obj.data.name);
+	
+	return popupHtml;
 }
 
 function addMarkerToRoute() {
