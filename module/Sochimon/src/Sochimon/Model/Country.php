@@ -17,7 +17,7 @@ class Country
 
 	public $latlng = array(); // array of latlng points
 	public $athletesWeight = 0;
-	public $athletesCoutn = 0;
+	public $athletesCount = 0;
 
 	public function getId()
 	{
