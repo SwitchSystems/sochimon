@@ -1,5 +1,12 @@
 <ul id="countries">
 	<?php foreach($this->countries as $country):?>
-		<li><a href="#"><i class="icon-plus-sign"></i> <img src="<?php echo $country->getFlag()?>" alt="" /> <?php echo $country->getName();?></a></li>
+		<li data-country="<?php echo $country->getId();?>">
+			<a href="#"><i class="icon-plus-sign"></i> <img src="<?php echo $country->getFlag()?>" alt="" /> <?php echo $country->getName();?></a>
+		</li>
+		<li class="country-detail" data-country="<?php echo $country->getId();?>">
+			<p><img src="<?php echo $country->getFlag()?>" alt="" /> <?php echo $country->getName();?></p>
+			<p><span class="badge badge-inverse gold">G:<?php echo $country->getGoldMedals();?></span> <span class="badge badge-inverse silver">S:<?php echo $country->getSilverMedals();?></span> <span class="badge badge-inverse bronze">B:<?php echo $country->getBronzeMedals(); ?></span></p>
+			<p>Athlete Weight: <span class="badge">xx.xKG</span></p>
+		</li>
 	<?php endforeach;?>
 </ul>
