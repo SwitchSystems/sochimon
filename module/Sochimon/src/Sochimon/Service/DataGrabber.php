@@ -10,6 +10,7 @@
 namespace Sochimon\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\Json\Json;
 
 class DataGrabber implements ServiceLocatorAwareInterface
 {
@@ -19,12 +20,37 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	const URL_SOCHI 	= 'http://sochi.kimonolabs.com/api/';
 	const API_LIMIT 	= 9999;
 
+
+	/**
+	 * Get all athletes
+	 *
+	 * @return mixed
+	 */
 	public function getAthletes() {
-		return json_dencode(file_get_contents('data/cache/athletes.json'));
+
+		return json_decode(file_get_contents('data/cache/athletes.json'));
 	}
 
+	/**
+	 * Get all countries
+	 *
+	 * @return mixed
+	 */
 	public function getCountries() {
-		return json_dencode(file_get_contents('data/cache/countries.json'));
+		$countries=json_decode(file_get_contents('data/cache/countries.json'),true);
+
+		$result = array();
+
+		foreach ($countries['data'] as $country) {
+			$objCountry = new \Sochimon\Model\Country();
+			foreach ($country as $k=>$v) {
+				$objCountry->$k = $v;
+			}
+			$result[]=$objCountry;
+		}
+
+		return $result;
+
 	}
 
 
@@ -41,7 +67,29 @@ class DataGrabber implements ServiceLocatorAwareInterface
 		if ($countries===false)
 			throw new RuntimeException('Something bad happened with the sochi/coutnries API feed updater');
 
-		$result = file_put_contents('data/cache/countries.json',$countries);
+		$countries = json_decode($countries,true);
+
+		$countries_geo = file_get_contents('http://restcountries.eu/rest/v1');
+
+		try {
+		// use the zend decoder, as we have some funky utf-8/encoding going on
+		$countries_geo = Json::decode($countries_geo,Json::TYPE_ARRAY);
+		} catch (\Exception $e) {
+			var_dump($e->getMessage());
+		}
+
+		// populate sochi country data with lat/lng coords
+		foreach ($countries_geo as $geoCountry) {
+			foreach ($countries['data'] as &$country) {
+				if ($geoCountry['alpha3Code'] == $country['abbr']) {
+					echo 'Found LATLNG for '.$country['abbr']." ";
+					$country['latlng'] = $geoCountry['latlng'];
+					break;
+				}
+			}
+		}
+
+		$result = file_put_contents('data/cache/countries.json',json_encode($countries));
 		if ($result===false)
 			throw new RuntimeException('Unable to write to data/cache/countries.json');
 
