@@ -13,9 +13,15 @@ class IndexController extends AbstractActionController
 		$data = $this->getServiceLocator()->get('DataGrabber');
 		/*@var $data \Sochimon\Service\DataGrabber */
 
-//		var_dump($data->updateCountriesCache());exit;
 
-		return new ViewModel();
+		$countries = $this->forward()->dispatch('Sochimon\Controller\CountriesController',['action' => 'index'])->setTerminal(true);
+		
+		
+		$viewRender = $this->getServiceLocator()->get('ViewRenderer');
+
+		return new ViewModel([
+				'countriesHTML' => $viewRender->render($countries),
+		]);
 	}
 
 }
