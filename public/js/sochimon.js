@@ -46,7 +46,9 @@ function createMarker(currentLatLng, previousLatLng, img, country)
 	marker = L.marker(currentLatLng, {icon: customIcon}).addTo(map);
 	currentMarkers[country] = currentLatLng;
 
-	addMarkerToRoute(currentLatLng, previousLatLng);
+	if(typeof previousLatLng[0] != 'undefined') {
+		addMarkerToRoute(currentLatLng, previousLatLng);
+	}
 }
 
 function createPopupMarkup(country) {
