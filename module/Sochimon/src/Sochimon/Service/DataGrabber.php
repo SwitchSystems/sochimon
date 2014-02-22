@@ -21,18 +21,9 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	const API_LIMIT 	= 9999;
 
 	/**
-	 * Get all athletes
+	 * Get all countries (that have medals), use our cache since we mashed up several APIs!
 	 *
-	 * @return arra yof Sochimon\Model\Athlete
-	 */
-	public function getAthletes() {
-		return json_decode(file_get_contents('data/cache/athletes.json'));
-	}
-
-	/**
-	 * Get all countries (that have medals)
-	 *
-	 * @return array of Sochimon\Model\Country
+	 * @return array of Sochimon\Model\Country , keyed by countryName
 	 */
 	public function getCountries() {
 		$arrCountries=json_decode(file_get_contents('data/cache/countries.json'),true);
@@ -64,7 +55,6 @@ class DataGrabber implements ServiceLocatorAwareInterface
 		$result = file_put_contents('data/cache/countries.json',json_encode($countries));
 		if ($result===false)
 			throw new RuntimeException('Unable to write to data/cache/countries.json');
-
 
 		return true;
 
