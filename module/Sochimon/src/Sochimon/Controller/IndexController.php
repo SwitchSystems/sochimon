@@ -38,7 +38,6 @@ class IndexController extends AbstractActionController
 	 */
 	public function scoreAction()
 	{
-		//@todo uncomment to get country data from ajax request
 		if(!$this->getRequest()->isPost())
 			throw new ErrorException('Data must be POSTed');
 		
