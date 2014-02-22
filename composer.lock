@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0714b3d5970048442df1cab52d973f46",
+    "hash": "296d3263d2f0e1a2808ad73fbd5d0e1c",
     "packages": [
         {
             "name": "treffynnon/navigator",
