@@ -1,7 +1,17 @@
 // create a map in the "map" div, set the view to a given place and zoom
+
 var map = L.map('map').setView([51.505, -0.09], 2);
-var plottedPolyline;
 var currentMarkers = new Object();
+var plottedPolyline = new Object();
+
+
+currentMarkers.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 // add an OpenStreetMap tile layer
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -17,23 +27,27 @@ function getMarkerData(e)
 	$('#route li[data-country="'+country+'"]').show();
 	$('#countries li[data-country="'+country+'"]').remove();
 
-	countryDiv = $('.countries').find("[data-country='" + country + "']");
-	var lat = $(countryDiv).data('country-lat');
-	var lng = $(countryDiv).data('country-Lng');
+	countryDiv = $('#route').find("[data-country='" + country + "']");
+	var lat = countryDiv.data('lat');
+	var lng = countryDiv.data('lng');
+	
+	var prevLat = countryDiv.prev().data('lat');
+	var prevLng = countryDiv.prev().data('lng');
+	
+	var img = countryDiv.find('img').attr('src');
 
-	//var img = countryDiv.find('img');
-
-	createMarker(lat, lng, country);
+	createMarker([lat, lng], [prevLat, prevLng], img, country);
 }
 
-function createMarker(lat, lng, country)
-{
-	//customIcon = createCustomIcon(imgSrc);
+function createMarker(currentLatLng, previousLatLng, img, country)
+{	 
+	customIcon = createCustomIcon(img);
 	popupHtml  = createPopupMarkup(country);
-	marker = L.marker([lat, lng]).addTo(map);
-	currentMarkers[country] = marker;
-console.log(marker);
-	addMarkerToRoute();
+	marker = L.marker(currentLatLng, {icon: customIcon}).addTo(map);
+	currentMarkers[country] = currentLatLng;
+
+	addMarkerToRoute(currentLatLng, previousLatLng);
+	panZoomToLayer(currentLatLng);
 }
 
 function createPopupMarkup(country) {
@@ -44,19 +58,18 @@ function createPopupMarkup(country) {
 	return popupHtml;
 }
 
-function addMarkerToRoute() {
-	plottedPolyline = L.Polyline.Plotter(currentMarkers,{weight: 5}).addTo(map);
+function addMarkerToRoute(current, previous) {	
+	L.polyline([current, previous],{color: 'red'}).addTo(map);
 }
 
 function createCustomIcon(imgSrc) {
 	var customIcon = L.icon({
 			iconUrl: imgSrc,
 
-			iconSize:     [38, 95], // size of the icon
-			shadowSize:   [50, 64], // size of the shadow
-			iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-			shadowAnchor: [4, 62],  // the same for the shadow
-			popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+			iconSize:     [45, 34], // size of the icon
+			//iconAnchor:   [0, 34], // point of the icon which will correspond to marker's location
+			//shadowAnchor: [4, 62],  // the same for the shadow
+			//popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 	});
 
 
@@ -77,3 +90,41 @@ $(document).ready(function(){
 		getMarkerData(e)
 	});
 });
+
+function panZoomToLayer(currentLatLng){
+	console.log();
+	map.panTo(currentLatLng);
+	map.setZoomAround(currentLatLng, 3);	
+}
+
+
+$('#calculateRoute').click(function(){
+	
+	var data = getRoute();
+	
+	$.ajax({
+		  type: "POST",
+		  url: '/game/score',
+		  data: data,
+		  success: displayScore,
+	});
+	
+});	
+
+
+
+function getRoute() {
+	var countriesList = [];
+	var routes = $('#route').find('.country-detail');
+	
+	routes.each(function(){
+		countriesList.push($(this).data('country'));
+	});
+	
+	console.log(countriesList);
+}
+
+function displayScore(obj, status) {
+	
+	
+}

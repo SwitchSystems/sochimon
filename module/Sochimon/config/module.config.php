@@ -47,6 +47,16 @@ return array(
 									),
 							),
 					),
+					'score'	=> array(
+							'type'    => 'Literal',
+							'options' => array(
+									'route'    => '/game/score',
+									'defaults' => array(
+											'controller'    => 'Sochimon\Controller\IndexController',
+											'action'        => 'score',
+									),
+							),
+					),
 			),
 		),
 
