@@ -23,7 +23,7 @@ class DataGrabber implements ServiceLocatorAwareInterface
 	/**
 	 * Get all countries (that have medals), use our cache since we mashed up several APIs!
 	 *
-	 * @return array of Sochimon\Model\Country , keyed by countryName
+	 * @return array of Sochimon\Model\Country , keyed by id
 	 */
 	public function getCountries() {
 		$arrCountries=json_decode(file_get_contents('data/cache/countries.json'),true);
@@ -34,7 +34,7 @@ class DataGrabber implements ServiceLocatorAwareInterface
 			foreach ($country as $k=>$v) {
 				$objCountry->$k = $v;
 			}
-			$result[strtolower($objCountry->getName())]=$objCountry;
+			$result[$objCountry->getId()]=$objCountry;
 		}
 		return $result;
 	}
