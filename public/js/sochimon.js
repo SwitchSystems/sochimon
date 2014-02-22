@@ -100,18 +100,16 @@ $('#calculateRoute').click(function(){
 		  data: data,
 		  success: displayScore,
 	});
-	
-	console.log(data);
 });	
 
 
 
 function getRoute() {
-	var countriesList = 'countries=';
+	var countriesList = '';
 	var routes = $('#route').find('.country-detail');
 	
 	routes.each(function(){
-		countriesList = countriesList + $(this).data('country') + ',';
+		countriesList += 'countries[]='+$(this).data('country') + '&';
 	});
 	
 	return countriesList;
@@ -119,5 +117,5 @@ function getRoute() {
 
 function displayScore(obj, status) {
 	
-	console.log(obj);
+	alert(obj.score);
 }
