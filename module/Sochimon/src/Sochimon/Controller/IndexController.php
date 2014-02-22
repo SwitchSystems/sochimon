@@ -33,13 +33,16 @@ class IndexController extends AbstractActionController
 		return new ViewModel();
 	}
 
+	/*
+	 * countries[]=country1&countries[]=country2&...
+	 */
 	public function scoreAction()
 	{
 		//@todo uncomment to get country data from ajax request
 		if(!$this->getRequest()->isPost())
 			throw new ErrorException('Data must be POSTed');
 		
-		$data = $this->getRequest()->getPost('countries');		
+		$data = $this->getRequest()->getPost('countries',[]);		
 		
 		$countries = $this->getServiceLocator()->get('DataGrabber')->getCountries();
 		
@@ -80,7 +83,7 @@ class IndexController extends AbstractActionController
 		
 		//var_dump($distanceWeightTravel,$score);exit;
 		
-		return (new ViewModel(['score' => $totalScore]))->setTerminal(true);
+		return (new ViewModel(['score' => $scoreTotal]))->setTerminal(true);
 	}
 	
 }

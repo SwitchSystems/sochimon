@@ -28,3 +28,6 @@ display:none;
 .bronze{
 	color:#D2691E;
 }
+
+#splash li { list-style-type: disc; }
+#splash  { padding:20px; }
