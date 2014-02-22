@@ -144,7 +144,9 @@ function getRoute() {
 
 function displayScore(obj, status) {
 	
-	alert(obj.score);
+	bootbox.alert("Your a Winner! " + obj.score, function() {
+		 
+	});
 }
 
 function panZoomToLayer(currentLatLng){	
