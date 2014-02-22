@@ -65,6 +65,7 @@ function createMarker(currentLatLng, previousLatLng, img, country)
 	$('.leaflet-marker-pane').find('img').css({height: '15px', width: '20px'});
 	if(typeof previousLatLng[0] != 'undefined') {
 		addMarkerToRoute(currentLatLng, previousLatLng);
+
 		$('.plane').animate({left: pos.left, top: pos.top}, 'slow');
 	}
 	else {
@@ -143,7 +144,7 @@ function getRoute() {
 
 function displayScore(obj, status) {
 	
-	alert(obj.score);
+	console.log(obj.score);
 }
 
 function panZoomToLayer(currentLatLng){	
