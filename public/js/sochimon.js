@@ -143,7 +143,6 @@ function getRoute() {
 }
 
 function displayScore(obj, status) {
-	
 	bootbox.alert("Your a Winner! " + obj.score, function() {
 		 
 	});
