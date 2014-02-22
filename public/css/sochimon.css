@@ -51,28 +51,3 @@ display:none;
 	display: none;
 }}
 
-.plane{    
-    transform:rotate(0deg);
--ms-transform:rotate(0deg); /* IE 9 */
--webkit-transform:rotate(0deg); /* Safari and Chrome */
-    
-    
-    animation: rotate 2s;
--webkit-animation: rotate 2s; /* Safari and Chrome */
-
-    }
-
-@keyframes rotate
-{
-to {    transform:rotate(360deg);
--ms-transform:rotate(360deg); /* IE 9 */
--webkit-transform:rotate(360deg); /* Safari and Chrome */}
-}
-
-@-webkit-keyframes rotate /* Safari and Chrome */
-{
-
-to {    transform:rotate(360deg);
--ms-transform:rotate(360deg); /* IE 9 */
--webkit-transform:rotate(360deg); /* Safari and Chrome */}
-}
