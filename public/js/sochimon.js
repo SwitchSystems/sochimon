@@ -47,7 +47,6 @@ function createMarker(currentLatLng, previousLatLng, img, country)
 	currentMarkers[country] = currentLatLng;
 
 	addMarkerToRoute(currentLatLng, previousLatLng);
-	panZoomToLayer(currentLatLng);
 }
 
 function createPopupMarkup(country) {
@@ -91,13 +90,6 @@ $(document).ready(function(){
 	});
 });
 
-function panZoomToLayer(currentLatLng){
-	console.log();
-	map.panTo(currentLatLng);
-	map.setZoomAround(currentLatLng, 3);	
-}
-
-
 $('#calculateRoute').click(function(){
 	
 	var data = getRoute();
@@ -108,23 +100,22 @@ $('#calculateRoute').click(function(){
 		  data: data,
 		  success: displayScore,
 	});
-	
 });	
 
 
 
 function getRoute() {
-	var countriesList = [];
+	var countriesList = '';
 	var routes = $('#route').find('.country-detail');
 	
 	routes.each(function(){
-		countriesList.push($(this).data('country'));
+		countriesList += 'countries[]='+$(this).data('country') + '&';
 	});
 	
-	console.log(countriesList);
+	return countriesList;
 }
 
 function displayScore(obj, status) {
 	
-	
+	alert(obj.score);
 }
