@@ -9,25 +9,38 @@
 		<div class="row-fluid">
 			<div class="span6">
 
-				<p>In this <strong>game</strong>, you're collecting up all of the medals from Sochi Olympics Winners.</p>
-				<p>As a PHP developer, naturally you have a private jet at your disposal, making you the ideal person for the job!</p>
+				<p>In this <strong>game</strong>, you're collecting up all of the medals from Sochi Olympic Winners.</p>
+				<p>As a PHP developer, naturally you have a private jet at your disposal!</p>
 				<h2>Your Task</h2>
 				<ol>
-					<li>You will gain points for every medal you pick up.</li>
+					<li>You will <span class="label label-success">gain points for every medal you pick up</span>.</li>
 					<li>Unfortunately, the athletes also want to come along for a ride, so you have to bring them with you.</li>
-					<li>Athletes will weigh down your jet, so you have to spend some of your points on fuel!</li>
-					<li>You can fly wherever route you want, but you must collect all the medals</li>
+					<li>Athletes will weigh down your jet, so you have to <span class="label label-important">spend your points on fuel</span>!</li>
+					<li>You can fly whatever route you want, but you must collect all the medals.</li>
 				</ol>
 				<h2>The Aim</h2>
-				<strong>Score more points than anyone else by choosing the best route!</strong>
+				<p><strong>Score more points than anyone else by choosing the best route!</strong></p>
+				<p><span class="label label-success">Pro-Tip</span> Athletes from different countries weigh different amounts, so start and finish destinations matter!</p>
 
 			</div>
 			<div class="span6">
 			<p><a href="/game" class="btn btn-success btn-large">Play the game!</a></p>
 			<p><a href="https://twitter.com/switchsystems/" class="btn btn-info " target="_blank">Follow us on Twitter!</a></p>
+
 			</div>
 		</div>
 
 	</div>
+
+	<h3>What is this?</h3>
+	<p>This is a hackathon submission for #PHPUK14, conceived and written from scratch in 7 hours on broken WiFi, based on an unseen Sochi Olympics API.</p>
+
+	<h3>Credits</h3>
+	<p>Kris Sum, Tom Ford, Jon Day all work at a small IT consultancy called <a href="http://www.switchsystems.co.uk">Switch Systems Ltd</a> down in Devon.</p>
+	<p>We build awesome stuff (mostly in PHP) for the University of Exeter, the NHS, and local businesses.</p>
+
+	<h3>The techie bit:</h3>
+
+	<p>We mashed up the Sochi Olympics API data with some geo country data, allowing us to get lat/lngs. We then removed all of the countries that didn't score any medals, then found the number of athletes and their weights</p>
 
 </div>
