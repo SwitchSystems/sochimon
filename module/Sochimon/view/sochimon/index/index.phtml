@@ -4,12 +4,20 @@
 			<?php echo $this->countriesHTML;?>
 		</div>
 		<div class="span2">
-			<h2>Route</h2>
+			<h2>Flight Plan</h2>
 			<div id="calculateRoute" class="btn btn-warning">Go!</div>
+			<div id="flightplan">
 			<ul id="route">
 			</ul>
+			</div>
 		</div>
 		<div class="span8">
-			<?php echo $this->partial('sochimon/partial/map');?>	
+			<div id="score">
+				<span class="countries">Countries visited <span class="label">0</span></span>
+				<span class="medals">Medal count <span class="label">0</span></span>
+				<span class="weight">Jet Weight <span class="label">0</span>KG</span>
+				<span class="score">Score <span class="label label-success">0</span></span>
+			</div>
+			<?php echo $this->partial('sochimon/partial/map');?>
 		</div>
 	</div>

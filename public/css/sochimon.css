@@ -20,13 +20,13 @@ li.country-detail{
 display:none;
 }
 .gold{
-	color:#B8860B;
+	background-color:#B8860B;
 }
 .silver{
-	color:#C0C0C0;
+	background-color:#C0C0C0;
 }
 .bronze{
-	color:#D2691E;
+	background-color:#D2691E;
 }
 
 #splash li { list-style-type: disc; }
@@ -51,16 +51,16 @@ display:none;
 	display: none;
 }}
 
-.plane{    
-    transform:rotate(0deg);
+.plane{
+		transform:rotate(0deg);
 -ms-transform:rotate(0deg); /* IE 9 */
 -webkit-transform:rotate(0deg); /* Safari and Chrome */
-    
-    
-    animation: rotate 2s;
+
+
+		animation: rotate 2s;
 -webkit-animation: rotate 2s; /* Safari and Chrome */
 
-    }
+		}
 
 @keyframes rotate
 {
@@ -76,3 +76,7 @@ to {    transform:rotate(360deg);
 -ms-transform:rotate(360deg); /* IE 9 */
 -webkit-transform:rotate(360deg); /* Safari and Chrome */}
 }
+
+#score { padding:10px; background:#e1e1e1;}
+#score span.score { float:right; font-weight:bold; margin-right:0px; }
+#score > span { margin-right:20px; }
