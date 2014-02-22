@@ -77,13 +77,15 @@ class IndexController extends AbstractActionController
 			
 			$totalScore = $medalScore-$travelScore;
 
-			$score[$key] = $totalScore;
-			$scoreTotal += $totalScore;
+			$score[$key] = [
+				'country' => $country['country'],
+				'weight' => $country['weight'],
+				'distance' => $country['distance'],
+				'score' => $totalScore
+			];
 		}
-		
-		//var_dump($distanceWeightTravel,$score);exit;
-		
-		return (new ViewModel(['score' => $scoreTotal]))->setTerminal(true);
+				
+		return (new ViewModel(['score' => $score]))->setTerminal(true);
 	}
 	
 }

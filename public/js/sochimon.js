@@ -144,7 +144,7 @@ function getRoute() {
 
 function displayScore(obj, status) {
 	
-	alert(obj.score);
+	console.log(obj.score);
 }
 
 function panZoomToLayer(currentLatLng){	
