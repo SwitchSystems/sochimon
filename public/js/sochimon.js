@@ -111,6 +111,7 @@ $(document).ready(function(){
 	$('li.country').click(function(e){
 		getMarkerData(e);
 		calcScore();
+		$('#route').scrollTop(2000);
 	});
 });
 
@@ -156,7 +157,7 @@ function displayScore(obj, status) {
 	$('#score span.score span.label').html(Math.round(current.score));
 
 	if($('#countries li').length == 0) {
-		bootbox.alert("<div class=\"finalscore\">Your final score is <span class=\"score\"> " + Math.round(obj.score[routes.length-1].score)+'</span>', function() {
+		bootbox.alert("<div class=\"finalscore\">Your final score is <span class=\"score\"> " + Math.round(obj.score[routes.length-1].score)+'</span>!', function() {
 		});
 	}
 }

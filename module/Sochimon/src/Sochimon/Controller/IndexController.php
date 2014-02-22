@@ -12,11 +12,11 @@ use Treffynnon\Navigator\Distance\Converter\MetreToMile;
 
 class IndexController extends AbstractActionController
 {
-	const GOLD_MEDAL = 1000;
-	const SILVER_MEDAL = 500;
-	const BRONZE_MEDAL = 200;
-	const WEIGHT_DIVISOR = 10000;
-	
+	const GOLD_MEDAL = 1500;
+	const SILVER_MEDAL = 800;
+	const BRONZE_MEDAL = 500;
+	const WEIGHT_DIVISOR = 100000;
+
 
 	public function indexAction()
 	{
@@ -27,7 +27,7 @@ class IndexController extends AbstractActionController
 				'countriesHTML' => $viewRender->render($countries),
 		]);
 	}
-	
+
 	public function splashAction()
 	{
 		return new ViewModel();
@@ -40,40 +40,40 @@ class IndexController extends AbstractActionController
 	{
 		if(!$this->getRequest()->isPost())
 			throw new ErrorException('Data must be POSTed');
-		
-		$data = $this->getRequest()->getPost('countries',[]);		
-		
+
+		$data = $this->getRequest()->getPost('countries',[]);
+
 		$countries = $this->getServiceLocator()->get('DataGrabber')->getCountries();
-		
+
 		//calculate the cumulative weight and non-cumulative distances between each country in order selected
 		$distanceWeightTravel = [];
 		foreach($data as $key => $country)
 		{
 			if($key > 0)
-			{				
+			{
 				$distanceCalc = new Distance(new LatLong(new Coordinate($countries[$distanceWeightTravel[$key-1]['country']]->getLat()),new Coordinate($countries[$distanceWeightTravel[$key-1]['country']]->getLng())),
 							new LatLong(new Coordinate($countries[$country]->getLat()),new Coordinate($countries[$country]->getLng())));
-				
+
 				$distance = $distanceCalc->get(null,new MetreToMile());
 			}
-			
+
 			$distanceWeightTravel[$key] = [
 				'country' => $country,
 				'distance' => $key > 0 ? $distance : 0,
 				'weight' => $key > 0 ? $distanceWeightTravel[$key-1]['weight']+$countries[$country]->getTotalAthleteWeight() : $countries[$country]->getTotalAthleteWeight()
 			];
 		}
-		
+
 		//calculate score based on number of medals and athelete weight
 		$score = [];
 		$scoreTotal = 0;
 		foreach($distanceWeightTravel as $key => $country)
 		{
 			$medalScore = $countries[$country['country']]->getGoldMedals()*self::GOLD_MEDAL +
-						  $countries[$country['country']]->getSilverMedals()*self::SILVER_MEDAL +
-						  $countries[$country['country']]->getBronzeMedals()*self::BRONZE_MEDAL;
+							$countries[$country['country']]->getSilverMedals()*self::SILVER_MEDAL +
+							$countries[$country['country']]->getBronzeMedals()*self::BRONZE_MEDAL;
 			$travelScore = ($country['weight'] / self::WEIGHT_DIVISOR) * $country['distance'];
-			
+
 			$totalScore = $medalScore-$travelScore;
 
 			$score[$key] = [
@@ -83,8 +83,8 @@ class IndexController extends AbstractActionController
 				'score' => $totalScore
 			];
 		}
-				
+
 		return (new ViewModel(['score' => $score]))->setTerminal(true);
 	}
-	
+
 }
