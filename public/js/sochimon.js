@@ -14,11 +14,11 @@ map.scrollWheelZoom.disable();
 if (map.tap) map.tap.disable();
 
 currentMarkers.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
+		var size = 0, key;
+		for (key in obj) {
+				if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
 };
 
 
@@ -29,32 +29,28 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 function getMarkerData(e)
-{	
+{
 	e.preventDefault();
 	var country = $(e.target).data('country');
 	var detail = $('li.country-detail[data-country="'+country+'"]');
 	$('#route').append(detail);
 	$('#route li[data-country="'+country+'"]').show();
 	$('#countries li[data-country="'+country+'"]').remove();
-	
-	if($('#countries li').length == 0) {
-		$('#calculateRoute').show();
-	}
-	
+
 	countryDiv = $('#route').find("[data-country='" + country + "']");
 	var lat = countryDiv.data('lat');
 	var lng = countryDiv.data('lng');
-	
+
 	var prevLat = countryDiv.prev().data('lat');
 	var prevLng = countryDiv.prev().data('lng');
-	
+
 	var img = countryDiv.find('img').attr('src');
 
 	createMarker([lat, lng], [prevLat, prevLng], img, country);
 }
 
 function createMarker(currentLatLng, previousLatLng, img, country)
-{	 
+{
 	customIcon = createCustomIcon(img);
 	popupHtml  = createPopupMarkup(country);
 	marker = L.marker(currentLatLng, {icon: customIcon}).addTo(map);
@@ -71,9 +67,9 @@ function createMarker(currentLatLng, previousLatLng, img, country)
 	else {
 		$('.leaflet-map-pane').append("<div class='plane icon-plane' style='font-size: 2em;z-index:9999;position:absolute;top:" + pos.top + 'px;left:' + pos.left + "px;'></div>");
 	}
-	 panZoomToLayer(currentLatLng);
-	 
-	 
+	panZoomToLayer(currentLatLng);
+
+
 }
 
 function createPopupMarkup(country) {
@@ -84,7 +80,7 @@ function createPopupMarkup(country) {
 	return popupHtml;
 }
 
-function addMarkerToRoute(current, previous) {	
+function addMarkerToRoute(current, previous) {
 	L.polyline([current, previous],{color: 'red'}).addTo(map);
 }
 
@@ -113,41 +109,68 @@ function getMarkerDataCallback() {
 //country select
 $(document).ready(function(){
 	$('li.country').click(function(e){
-		getMarkerData(e)
+		getMarkerData(e);
+		calcScore();
 	});
 });
 
 $('#calculateRoute').click(function(){
-	
-	var data = getRoute();
-	
-	$.ajax({
-		  type: "POST",
-		  url: '/game/score',
-		  data: data,
-		  success: displayScore,
-	});
-});	
+	calcScore();
 
+});
+
+
+function calcScore() {
+	var data = getRoute();
+
+	$.ajax({
+			type: "POST",
+			url: '/game/score',
+			data: data,
+			success: displayScore,
+	});
+}
 
 
 function getRoute() {
 	var countriesList = '';
 	var routes = $('#route').find('.country-detail');
-	
+
 	routes.each(function(){
 		countriesList += 'countries[]='+$(this).data('country') + '&';
 	});
-	
+
 	return countriesList;
 }
 
 function displayScore(obj, status) {
-	bootbox.alert("Your a Winner! " + obj.score, function() {
-		 
-	});
+
+	// check to see it this is the final country
+	var routes = $('#route').find('.country-detail');
+	var current = obj.score[obj.score.length-1];
+	var medals = getMedalsInFlightplan();
+
+	$('#score span.countries span.label').html(routes.length);
+	$('#score span.medals span.label').html(medals);
+	$('#score span.weight span.label').html(current.weight);
+	$('#score span.score span.label').html(Math.round(current.score));
+
+	if($('#countries li').length == 0) {
+		bootbox.alert("<div class=\"finalscore\">Your final score is <span class=\"score\"> " + Math.round(obj.score[routes.length-1].score)+'</span>', function() {
+		});
+	}
 }
 
-function panZoomToLayer(currentLatLng){	
+function getMedalsInFlightplan() {
+
+	var medalCount = 0;
+
+	$('#flightplan span.badge.gold, #flightplan span.badge.silver, #flightplan span.badge.bronze').each(function() {
+		medalCount+= $(this).html()*1;
+	});
+	return medalCount;
+}
+
+function panZoomToLayer(currentLatLng){
 	//map.panTo(currentLatLng, {animation: 'slow'});
 }

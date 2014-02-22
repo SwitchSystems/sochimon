@@ -79,5 +79,11 @@ to {    transform:rotate(360deg);
 }
 
 #score { padding:10px; background:#e1e1e1;}
-#score span.score { float:right; font-weight:bold; margin-right:0px; }
+#score span.score { float:right; font-weight:bold; }
+#score span.reset { float:right; margin-right:0px; }
 #score > span { margin-right:20px; }
+
+
+.finalscore { font-size:500%; line-height:1em; min-height:100px;}
+
+.finalscore .score { background-color:#468847; }
