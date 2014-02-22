@@ -1,7 +1,9 @@
 // create a map in the "map" div, set the view to a given place and zoom
-var map = L.map('map').setView([51.505, -0.09], 4);
-var plottedPolyline = new Object();
+
+var map = L.map('map').setView([51.505, -0.09], 2);
 var currentMarkers = new Object();
+var plottedPolyline = new Object();
+
 
 currentMarkers.size = function(obj) {
     var size = 0, key;
@@ -45,6 +47,7 @@ function createMarker(currentLatLng, previousLatLng, img, country)
 	currentMarkers[country] = currentLatLng;
 
 	addMarkerToRoute(currentLatLng, previousLatLng);
+	panZoomToLayer(currentLatLng);
 }
 
 function createPopupMarkup(country) {
@@ -87,3 +90,41 @@ $(document).ready(function(){
 		getMarkerData(e)
 	});
 });
+
+function panZoomToLayer(currentLatLng){
+	console.log();
+	map.panTo(currentLatLng);
+	map.setZoomAround(currentLatLng, 3);	
+}
+
+
+$('#calculateRoute').click(function(){
+	
+	var data = getRoute();
+	
+	$.ajax({
+		  type: "POST",
+		  url: '/game/score',
+		  data: data,
+		  success: displayScore,
+	});
+	
+});	
+
+
+
+function getRoute() {
+	var countriesList = [];
+	var routes = $('#route').find('.country-detail');
+	
+	routes.each(function(){
+		countriesList.push($(this).data('country'));
+	});
+	
+	console.log(countriesList);
+}
+
+function displayScore(obj, status) {
+	
+	
+}

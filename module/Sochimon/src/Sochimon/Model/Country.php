@@ -16,6 +16,8 @@ class Country
 	public $medals = array();
 
 	public $latlng = array(); // array of latlng points
+	public $athletesWeight = 0;
+	public $athletesCount = 0;
 
 	public function getId()
 	{
@@ -51,22 +53,22 @@ class Country
 	{
 		return $this->medals['bronze'];
 	}
-	
+
 	public function getTotalAthleteWeight()
 	{
-		return 0;
+		return $this->athletesWeight;
 	}
-	
+
 	public function getTotalAthlete()
 	{
-		return 0;
+		return $this->athletesCount;
 	}
-	
+
 	public function getLat()
 	{
 		return $this->latlng[0];
 	}
-	
+
 	public function getLng()
 	{
 		return $this->latlng[1];
