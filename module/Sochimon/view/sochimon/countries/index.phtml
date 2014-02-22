@@ -6,7 +6,7 @@
 		<li class="country-detail" data-country="<?php echo $country->getId();?>" data-lat="<?php echo $country->getLat();?>" data-lng="<?php echo $country->getLng();?>">
 			<p><img src="<?php echo $country->getFlag()?>" alt="" /> <?php echo $country->getName();?></p>
 			<p><span class="badge badge-inverse gold">G:<?php echo $country->getGoldMedals();?></span> <span class="badge badge-inverse silver">S:<?php echo $country->getSilverMedals();?></span> <span class="badge badge-inverse bronze">B:<?php echo $country->getBronzeMedals(); ?></span></p>
-			<p>Athlete Weight: <span class="badge"><?php echo $country->getTotalAthleteWeight()?>KG</span></p>
+			<p>Athlete Weight: <span class="badge"><?php echo $country->getTotalAthleteWeight()?> KG</span></p>
 		</li>
 	<?php endforeach;?>
 </ul>
