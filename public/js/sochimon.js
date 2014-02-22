@@ -143,8 +143,9 @@ function getRoute() {
 }
 
 function displayScore(obj, status) {
-	
-	console.log(obj.score);
+	bootbox.alert("Your a Winner! " + obj.score, function() {
+		 
+	});
 }
 
 function panZoomToLayer(currentLatLng){	
